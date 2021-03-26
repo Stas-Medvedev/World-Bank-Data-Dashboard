@@ -1,13 +1,32 @@
 from myapp import app
 import json, plotly
-from flask import render_template
+from flask import render_template, request
 from wrangling_scripts.wrangle_data import return_figures
 
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods = ['POST', 'GET'])
+@app.route('/index', methods = ['POST', 'GET'])
 def index():
 
-    figures = return_figures()
+    # List of countries to use with the dropdown menu
+    country_codes = [('Canada', 'CAN'), ('United States', 'USA'), ('Brazil', 'BRA'), ('France', 'FRA'), ('India', 'IND'), 
+                     ('Italy', 'ITA'), ('Germany', 'DEU'), ('United Kingdom', 'GBR'), ('China', 'CHN'), ('Japan', 'JPN'),
+                     ('Russia', 'RUS'), ('Turkmenistan', 'TKM')]
+    
+    # Parse the POST request countries list
+    if (request.method == 'POST') and request.form:
+        figures = return_figures(request.form)
+        countries_selected = []
+        
+        for country in request.form.lists():
+            countries_selected.append(country[1][0])
+            
+    # GET request returns all countries for initial page load
+    else:
+        figures = return_figures()
+        countries_selected = []
+        
+        for country in country_codes:
+            countries_selected.append(country[1])
 
     # plot ids for the html id tag
     ids = ['figure-{}'.format(i) for i, _ in enumerate(figures)]
@@ -17,4 +36,6 @@ def index():
 
     return render_template('index.html',
                            ids=ids,
-                           figuresJSON=figuresJSON)
+                           figuresJSON=figuresJSON,
+                           all_countries = country_codes,
+                           countries_selected = countries_selected)

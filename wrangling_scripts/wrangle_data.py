@@ -12,7 +12,6 @@ country_default = OrderedDict([('Canada', 'CAN'), ('United States', 'USA'), ('Br
                               ('Italy', 'ITA'), ('Germany', 'DEU'), ('United Kingdom', 'GBR'), ('China', 'CHN'), ('Japan', 'JPN'),
                               ('Russia', 'RUS'), ('Turkmenistan', 'TKM')])
 
-# , ('Turkmenistan', 'TKM')
 
 def return_figures(countries = country_default):
     """Creates plotly visualizations
