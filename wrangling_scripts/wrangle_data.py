@@ -12,8 +12,6 @@ country_default = OrderedDict([('Canada', 'CAN'), ('United States', 'USA'), ('Br
                               ('Italy', 'ITA'), ('Germany', 'DEU'), ('United Kingdom', 'GBR'), ('China', 'CHN'), ('Japan', 'JPN'),
                               ('Russia', 'RUS'), ('Turkmenistan', 'TKM')])
 
-climate_data_url = 'http://climatedataapi.worldbank.org/climateweb/rest/v1/country/cru/tas/year/'
-
 def return_figures(countries = country_default):
     """Creates plotly visualizations
     
@@ -46,7 +44,6 @@ def return_figures(countries = country_default):
     data_frames = []
     # and url endpoints of the World Bank API
     urls = []
-    climate_urls = []
     
     # pull data from World Bank API and clean the resulting json
     # results stored in data_frames variable
@@ -66,9 +63,6 @@ def return_figures(countries = country_default):
         value['country'] = value['country']['value']
 
       data_frames.append(data)
-    
-    for country in list(countries.values()):
-        climate_urls.append(climate_data_url + country +'.json')
     
     # first chart plots arable land from 1992 to 2018 as a line chart
     graph_one = []
